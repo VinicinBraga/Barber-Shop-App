@@ -1,7 +1,19 @@
 const express = require("express");
-const morgan = require("morgan");
 const app = express();
-const port = 3001;
+const morgan = require("morgan");
+const cors = require("cors");
+require("./database");
 
-app.get("/", (req, res) => res.send("Hello World!"));
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+//Middlewares
+app.use(morgan("start"));
+app.use(express.json());
+
+//Variables
+app.set("port", 3001);
+
+//Rotas
+app.use("/salao", require("./src/routes/salao.routes"));
+
+app.listen(app.get("port"), () => {
+  console.log(`BACK-END LISTEN ON PORT ${app.get("port")}`);
+});
